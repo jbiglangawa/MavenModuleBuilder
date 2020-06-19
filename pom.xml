@@ -7,6 +7,11 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>MavenModuleBuilder</name>
 	<packaging>jar</packaging>
+	
+	<properties>
+		<releaseVersion>1.0</releaseVersion>
+		<releaseDate>06182020</releaseDate>
+	</properties>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
@@ -40,7 +45,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>Maven Module Builder</finalName>
+		<finalName>Maven Module Builder Version ${releaseVersion}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
