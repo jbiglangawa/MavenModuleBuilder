@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 	
 	<properties>
-		<releaseVersion>1.0</releaseVersion>
+		<releaseVersion>1.0.0</releaseVersion>
 		<releaseDate>06182020</releaseDate>
 	</properties>
 
@@ -45,7 +45,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>Maven Module Builder Version ${releaseVersion}</finalName>
+		<finalName>Maven Module Builder-${releaseVersion}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -75,7 +75,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>
-								${project.build.directory}/Maven Module Builder/libs
+								${project.build.directory}/Maven Module Builder-${releaseVersion}/libs
 							</outputDirectory>
 						</configuration>
 					</execution>
@@ -97,7 +97,7 @@
 						</manifest>
 					</archive>
 
-					<outputDirectory>${project.build.directory}/Maven Module Builder/</outputDirectory>
+					<outputDirectory>${project.build.directory}/Maven Module Builder-${releaseVersion}/</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
