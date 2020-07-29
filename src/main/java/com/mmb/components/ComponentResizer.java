@@ -373,6 +373,7 @@ public class ComponentResizer extends MouseAdapter
 		int y = bounds.y;
 		int width = bounds.width;
 		int height = bounds.height;
+		
 
 		//  Resizing the West or North border affects the size and location
 

@@ -19,6 +19,7 @@ public class Defaults {
 	public Defaults() {
 		isBuild = false;
 		isReplace = false;
+		goal = new Goal("");
 	}
 	
 	public Defaults(String projectPath, String buildParameters, String mavenOpts, Boolean isBuild, Boolean isReplace,

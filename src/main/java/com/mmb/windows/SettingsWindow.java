@@ -9,6 +9,7 @@ package com.mmb.windows;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.SystemColor;
@@ -85,6 +86,8 @@ import com.mmb.util.constants.ColorConstants;
 import com.mmb.util.constants.Constants;
 import com.mmb.util.constants.LabelConstants;
 import com.mmb.util.constants.TooltipsConstants;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class SettingsWindow extends JFrame {
 
@@ -346,6 +349,14 @@ public class SettingsWindow extends JFrame {
 		goalLabel.setFont(new Font(Constants.FONT_DIALOG, Font.PLAIN, 12));
 		
 		projectPathTextField = new JTextField();
+		projectPathTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(!Util.isNullOrEmpty(projectPathTextField.getText())) {
+					saveGeneralTab();
+				}
+			}
+		});
 		projectPathTextField.setColumns(10);
 		
 		buildParamsTextField = new JTextField();
@@ -574,11 +585,24 @@ public class SettingsWindow extends JFrame {
 		scanRootButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				DefaultTreeModel model = (DefaultTreeModel) moduleDirectoryTree.getModel();
-				DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-		        root.removeAllChildren();
-		        model.reload();
-		        model.setRoot(POMScanner.getInstance().scan());
+				ScanningDialog scanDialog = new ScanningDialog(SettingsWindow.this);
+				scanDialog.setVisible(true);
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						DefaultTreeModel model = (DefaultTreeModel) moduleDirectoryTree.getModel();
+						DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+						DefaultMutableTreeNode newRoot = POMScanner.getInstance().scan();
+						if(root != null) {
+							scanDialog.setVisible(false);
+							root.removeAllChildren();
+						}
+						model.reload();
+						model.setRoot(newRoot);
+						scanDialog.setVisible(false);
+					}
+				});
+				
 			}
 		});
 		
@@ -1067,7 +1091,10 @@ public class SettingsWindow extends JFrame {
 		 */
 		DefaultTreeModel model = (DefaultTreeModel) moduleDirectoryTree.getModel();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-		POMDirectory pomDirectory = new POMDirectory(root);
+		POMDirectory pomDirectory = null;
+		if(root != null) {
+			pomDirectory = new POMDirectory(root);
+		}
 		
 		/*
 		 * Saving target lists and sysenv lists in XML file

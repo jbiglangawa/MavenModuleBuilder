@@ -9,6 +9,7 @@ package com.mmb.windows;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.TextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -33,6 +34,9 @@ import com.mmb.util.ImageUtil;
 import com.mmb.util.constants.ColorConstants;
 import com.mmb.util.constants.Constants;
 import com.mmb.util.constants.LabelConstants;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BuildLogWindow extends JFrame {
 
@@ -47,7 +51,7 @@ public class BuildLogWindow extends JFrame {
 	private int xLoc;
 	private int yLoc;
 	private TextArea logTextArea;
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -58,7 +62,6 @@ public class BuildLogWindow extends JFrame {
 		ComponentResizer cr = new ComponentResizer();
 		cr.registerComponent(this);
 		cr.setSnapSize(new Dimension(10, 10));
-		cr.setMaximumSize(new Dimension(1800,600));
 		
 		setMinimumSize(new Dimension(200, 200));
 		setUndecorated(true);
@@ -84,7 +87,6 @@ public class BuildLogWindow extends JFrame {
 		closeButton.setIcon(ImageUtil.getImageIcon(Resources.CLOSE));
 		
 		JButton clearButton = new JButton(LabelConstants.CLEAR);
-		clearButton.setBounds(478, 0, 76, 27);
 		clearButton.setBorder(null);
 		clearButton.setBorderPainted(false);
 		clearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -102,8 +104,6 @@ public class BuildLogWindow extends JFrame {
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBackground(ColorConstants.BLACK_37);
-		buttonPanel.setLayout(null);
-		buttonPanel.add(clearButton);
 
 		JPanel headerPanel = new JPanel();
 		headerPanel.setDoubleBuffered(false);
@@ -128,6 +128,7 @@ public class BuildLogWindow extends JFrame {
 			public void mouseDragged(MouseEvent arg0) {
 				int x = arg0.getXOnScreen() - xLoc;
 				int y = arg0.getYOnScreen() - yLoc;
+				
 				setLocation(x, y);
 			}
 		});
@@ -174,6 +175,22 @@ public class BuildLogWindow extends JFrame {
 					.addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
+		GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
+		gl_buttonPanel.setHorizontalGroup(
+			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_buttonPanel.createSequentialGroup()
+					.addContainerGap(478, Short.MAX_VALUE)
+					.addComponent(clearButton, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		gl_buttonPanel.setVerticalGroup(
+			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_buttonPanel.createSequentialGroup()
+					.addGap(0, 0, Short.MAX_VALUE)
+					.addComponent(clearButton, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		buttonPanel.setLayout(gl_buttonPanel);
 		
 		GroupLayout gl_txtAreaPanel = new GroupLayout(txtAreaPanel);
 		gl_txtAreaPanel.setHorizontalGroup(
@@ -186,18 +203,37 @@ public class BuildLogWindow extends JFrame {
 		);
 		txtAreaPanel.setLayout(gl_txtAreaPanel);
 		
+		JButton minimizeButton = new JButton("");
+		minimizeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setState(Frame.ICONIFIED);
+			}
+		});
+		minimizeButton.setForeground(new Color(37, 37, 37));
+		minimizeButton.setFocusable(false);
+		minimizeButton.setFocusPainted(false);
+		minimizeButton.setContentAreaFilled(false);
+		minimizeButton.setBorderPainted(false);
+		minimizeButton.setBorder(null);
+		minimizeButton.setBackground(new Color(37, 37, 37));
+		minimizeButton.setIcon(ImageUtil.getImageIcon(Resources.MINIMIZE));
+		
 		GroupLayout gl_headerPanel = new GroupLayout(headerPanel);
 		gl_headerPanel.setHorizontalGroup(
-			gl_headerPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_headerPanel.createSequentialGroup()
-					.addContainerGap(556, Short.MAX_VALUE)
+			gl_headerPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_headerPanel.createSequentialGroup()
+					.addContainerGap(516, Short.MAX_VALUE)
+					.addComponent(minimizeButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(closeButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_headerPanel.setVerticalGroup(
 			gl_headerPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_headerPanel.createSequentialGroup()
-					.addComponent(closeButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(17, Short.MAX_VALUE))
+					.addGroup(gl_headerPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(closeButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+						.addComponent(minimizeButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		headerPanel.setLayout(gl_headerPanel);
 		contentPane.setLayout(gl_contentPane);

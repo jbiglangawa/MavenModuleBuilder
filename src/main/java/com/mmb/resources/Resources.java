@@ -46,6 +46,9 @@ public class Resources {
 	public static final String TOGGLE_SELECTED = "toggle-selected" + PNG;
 	public static final String TOGGLE_DEFAULT_DISABLED = "toggle-default-disabled" + PNG;
 	public static final String TOGGLE_SELECTED_DISABLED = "toggle-selected-disabled" + PNG;
+	public static final String MAXIMIZE = "maximize" + PNG;
+	public static final String MINIMIZE = "minimize" + PNG;
+	public static final String ICON = "icon" + PNG;
 	
 	// GIF Files
 	public static final String LOADING = "loading-resized" + GIF;

@@ -67,6 +67,8 @@ public class TargetModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+    	if(rowIndex < 0) return null;
+    	
         Target row = targetList.get(rowIndex);
         if(0 == columnIndex) {
         	return rowIndex + 1;

@@ -10,12 +10,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.log4j.Logger;
 
 import com.mmb.models.POMDirectory;
-import com.mmb.util.constants.Constants;
 
 public class POMScanner {
 	private static Logger logger = Logger.getLogger(POMScanner.class);
@@ -40,8 +40,13 @@ public class POMScanner {
 	 * @return
 	 */
 	public DefaultMutableTreeNode scan() {
-		File file = new File(XMLUtil.getInstance().getDefaults().getProjectPath() + File.separator + Constants.SRC);
+		File file = new File(XMLUtil.getInstance().getDefaults().getProjectPath() + File.separator);
 
+		if(!file.exists()) {
+			JOptionPane.showMessageDialog(null, "The project path folder does not exist", "Not found", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		
 		logger.debug("Scanning Project Path: " + file.getAbsolutePath());
 		long startTime = System.currentTimeMillis();
 		
@@ -62,6 +67,12 @@ public class POMScanner {
 	private DefaultMutableTreeNode processPOMDirectories() {
 		POMDirectory root = new POMDirectory();
 		String projectPath = XMLUtil.getInstance().getDefaults().getProjectPath();
+		
+		if(directoriesWithPOM.size() == 0) {
+			JOptionPane.showMessageDialog(null, "No maven projects found", "Not found", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		
 		logger.debug("[INFO] The following are directories with POM in its directory");
 		for(String directory : directoriesWithPOM) {
 			logger.debug(directory);

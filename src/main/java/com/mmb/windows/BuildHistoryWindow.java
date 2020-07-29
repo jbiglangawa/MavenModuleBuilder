@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -38,6 +39,8 @@ import com.mmb.util.ImageUtil;
 import com.mmb.util.constants.ColorConstants;
 import com.mmb.util.constants.Constants;
 import com.mmb.util.constants.LabelConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BuildHistoryWindow extends JFrame {
 
@@ -152,6 +155,20 @@ public class BuildHistoryWindow extends JFrame {
 			}
 		});
 		
+		JButton minimizeButton = new JButton("");
+		minimizeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setState(Frame.ICONIFIED);
+			}
+		});
+		minimizeButton.setForeground(new Color(37, 37, 37));
+		minimizeButton.setFocusable(false);
+		minimizeButton.setFocusPainted(false);
+		minimizeButton.setContentAreaFilled(false);
+		minimizeButton.setBorderPainted(false);
+		minimizeButton.setBorder(null);
+		minimizeButton.setBackground(new Color(37, 37, 37));
+		
 		
 		
 		/*
@@ -187,16 +204,20 @@ public class BuildHistoryWindow extends JFrame {
 		
 		GroupLayout gl_headerPanel = new GroupLayout(headerPanel);
 		gl_headerPanel.setHorizontalGroup(
-			gl_headerPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_headerPanel.createSequentialGroup()
-					.addContainerGap(556, Short.MAX_VALUE)
+			gl_headerPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_headerPanel.createSequentialGroup()
+					.addContainerGap(619, Short.MAX_VALUE)
+					.addComponent(minimizeButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(closeButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_headerPanel.setVerticalGroup(
 			gl_headerPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_headerPanel.createSequentialGroup()
-					.addComponent(closeButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(17, Short.MAX_VALUE))
+					.addGroup(gl_headerPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(closeButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+						.addComponent(minimizeButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		
 		historyPanel.setLayout(gl_historyPanel);

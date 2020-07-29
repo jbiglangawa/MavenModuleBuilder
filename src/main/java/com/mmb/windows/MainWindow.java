@@ -109,7 +109,8 @@ public class MainWindow extends JFrame {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(37, 37, 500, 600);
-
+		setIconImage(ImageUtil.getImage(Resources.ICON));
+		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(ColorConstants.BLACK_37);
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
